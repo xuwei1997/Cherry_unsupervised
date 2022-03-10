@@ -1,9 +1,9 @@
+#训练对比学习网络
 import random
 import numpy as np
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
 import matplotlib.pyplot as plt
+from self_vgg16 import self_sup_vgg16
 
 def loss(T=0.1): #对比学习loss
     def contrastive_loss(y_true, y_logits):
@@ -22,18 +22,8 @@ def loss(T=0.1): #对比学习loss
 
     return contrastive_loss
 
-def euclidean_distance(vects): # 欧氏距离
-    """Find the Euclidean distance between two vectors.
-    Arguments:
-        vects: List containing two tensors of same length.
-    Returns:
-        Tensor containing euclidean distance
-        (as floating point value) between vectors.
-    """
 
-    x, y = vects
-    sum_square = tf.math.reduce_sum(tf.math.square(x - y), axis=1, keepdims=True)
-    dic=tf.math.sqrt(tf.math.maximum(sum_square, tf.keras.backend.epsilon()))
-    print(dic)
-    return dic
 
+if __name__ == '__main__':
+    model=self_sup_vgg16()
+    model.summary()
