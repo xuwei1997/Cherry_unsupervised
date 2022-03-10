@@ -1,4 +1,4 @@
-#训练对比学习网络,mnist
+# 训练对比学习网络,mnist
 import random
 import numpy as np
 import tensorflow as tf
@@ -60,6 +60,7 @@ def make_pairs(x, y):
 
     return np.array(pairs), np.array(labels).astype("float32")
 
+
 def plt_metric(history, metric, title, has_valid=True):
     """Plots the given 'metric' from 'history'.
     Arguments:
@@ -78,6 +79,7 @@ def plt_metric(history, metric, title, has_valid=True):
     plt.ylabel(metric)
     plt.xlabel("epoch")
     plt.show()
+
 
 def visualize(pairs, labels, to_show=6, num_col=3, predictions=None, test=False):
     """Creates a plot of pairs and labels, and prediction if it's test dataset.
@@ -140,7 +142,8 @@ def visualize(pairs, labels, to_show=6, num_col=3, predictions=None, test=False)
         plt.tight_layout(rect=(0, 0, 1.5, 1.5))
     plt.show()
 
-def loss(T=0.1): #对比学习loss
+
+def loss(T=0.1):  # 对比学习loss
     def contrastive_loss(y_true, y_logits):
         """Calculates the constrastive loss.
            Arguments:
@@ -151,12 +154,11 @@ def loss(T=0.1): #对比学习loss
                A tensor containing constrastive loss as floating point value.
            """
         # sce=tf.nn.sigmoid_cross_entropy_with_logits(labels=y_true, logits=y_logits)
-        sce = tf.nn.sigmoid_cross_entropy_with_logits(labels=y_true, logits=(y_logits/T))
-        sce_loss=tf.math.reduce_mean(sce)
+        sce = tf.nn.sigmoid_cross_entropy_with_logits(labels=y_true, logits=(y_logits / T))
+        sce_loss = tf.math.reduce_mean(sce)
         return sce_loss
 
     return contrastive_loss
-
 
 
 if __name__ == '__main__':
@@ -176,7 +178,6 @@ if __name__ == '__main__':
     # Change the data type to a floating point format
     x_train_val = x_train_val.astype("float32")
     x_test = x_test.astype("float32")
-
 
     """
     ## Define training and validation sets
@@ -229,8 +230,8 @@ if __name__ == '__main__':
     training
     """
 
-    siamese=self_sup_vgg16(shape=(28,28,1))
-    siamese.compile(loss=loss(T=1), optimizer="RMSprop", metrics=["accuracy"])
+    siamese = self_sup_vgg16(shape=(28, 28, 1))
+    siamese.compile(loss=loss(T=1), optimizer="Adam", metrics=["accuracy"])
     siamese.summary()
     history = siamese.fit(
         [x_train_1, x_train_2],

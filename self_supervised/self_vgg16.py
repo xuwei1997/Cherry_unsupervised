@@ -33,12 +33,12 @@ def self_sup_vgg16(shape=(1024,576,3)):
 
 
     # 对比学习网络
-    input_1 = Input(shape)
-    input_2 = Input(shape)
+    input_1 = Input(shape,name='self_input1')
+    input_2 = Input(shape,name='self_input2')
     tower_1 = vgg(input_1)
     tower_2 = vgg(input_2)
     merge_layer = Lambda(euclidean_distance)([tower_1, tower_2])
-    normal_layer = tf.keras.layers.BatchNormalization()(merge_layer)
+    normal_layer = tf.keras.layers.BatchNormalization(name='output')(merge_layer)
     siamese = Model(inputs=[input_1, input_2], outputs=normal_layer)
     siamese.summary()
 
