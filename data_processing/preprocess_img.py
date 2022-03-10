@@ -12,17 +12,19 @@ def one_img(img_path):
     h, w = input_shape
     image = image.resize((w, h), Image.BICUBIC)
     # print(image.size)
-    jpg = preprocess_input(np.array(image, np.float32))
+    jpg = preprocess_input(np.array(image, np.float16))
 
     return jpg
 
 def double_img(dou_img,path):
+    print(dou_img)
     img0 = os.path.join(path,dou_img[0])
     img1 = os.path.join(path, dou_img[1])
     jpg0=one_img(img0)
     jpg1=one_img(img1)
     img_out=np.stack((jpg0, jpg1))
-    print(img_out.shape)
+    # print(img_out.shape)
+    return img_out
 
 
 if __name__ == '__main__':

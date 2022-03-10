@@ -3,6 +3,9 @@ import os
 import itertools
 import numpy as np
 import sklearn
+# from preprocess_img import double_img
+# from pathos.multiprocessing import ProcessingPool as Pool
+# from functools import partial
 
 def get_dir(path, kind=True):  # 获取文件夹下路径
     filenames = os.listdir(path)
@@ -55,7 +58,7 @@ if __name__ == '__main__':
 
     X=[]
     Y=[]
-
+    print("Resampling")
     for i in label:
         # 获取这类的索引
         w = np.where(y_np == i)[0]
@@ -77,9 +80,35 @@ if __name__ == '__main__':
 
         X.extend(xt)
         Y.extend(yt)
+        print(i)
 
     #打乱
+    print("shuffle")
     X, Y = sklearn.utils.shuffle(X, Y)
     # print(X)
+
+
+    # #导出(过大，改为导出索引)
+    # print("out")
+    # double_img_p = partial(double_img, path=path)
+    # p = Pool()
+    # x_out=p.map(double_img_p,X)
+    #
+    #
+    # x_out = np.array(x_out, np.float16)
+    # y_out = np.array(Y)
+    # print(x_out.shape)
+    # print(y_out.shape)
+    #
+    # np.save("x_out.npy", x_out)
+    # np.save("y_out.npy", y_out)
+
+    #保存索引
+    X=np.array(X)
+    Y=np.array(Y)
+    print(X)
+    print(Y)
+    np.save("x_out_inx.npy", X)
+    np.save("y_out_inx.npy", Y)
 
 
