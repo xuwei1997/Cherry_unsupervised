@@ -60,6 +60,7 @@ class UnetDataset(tf.keras.utils.Sequence):
         return np.random.rand() * (b - a) + a
 
     def get_random_data(self, image, label, input_shape, jitter=.3, hue=.1, sat=1.5, val=1.5, random=True):
+    # def get_random_data(self, image, label, input_shape, jitter=.3, hue=.8, sat=1.5, val=1.5, random=True):
         # random 随机数据增强
         image = cvtColor(image)
         label = Image.fromarray(np.array(label))

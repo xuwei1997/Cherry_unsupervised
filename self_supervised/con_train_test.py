@@ -3,7 +3,7 @@ import random
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from self_vgg16 import self_sup_vgg16
+from self_vgg16_2 import self_sup_vgg16
 from tensorflow import keras
 
 """
@@ -231,7 +231,7 @@ if __name__ == '__main__':
     """
 
     siamese = self_sup_vgg16(shape=(28, 28, 1))
-    siamese.compile(loss=loss(T=1), optimizer="Adam", metrics=["accuracy"])
+    siamese.compile(loss=loss(T=1), optimizer="RMSprop", metrics=["accuracy"])
     siamese.summary()
     history = siamese.fit(
         [x_train_1, x_train_2],

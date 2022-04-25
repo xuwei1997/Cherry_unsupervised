@@ -1,6 +1,7 @@
 from keras.initializers import random_normal
 from keras.layers import *
 from keras.models import *
+from tensorflow.keras.layers import BatchNormalization
 
 from nets.vgg16 import VGG16
 from nets.resnet50 import ResNet50
@@ -59,6 +60,7 @@ def Unet(input_shape=(512, 512, 3), num_classes = 21, backbone = "vgg"):
 
     if backbone == "vgg":
         # 512, 512, 64 -> 512, 512, num_classes
+        P1 = BatchNormalization()(P1)# 新加的
         P1 = Conv2D(num_classes, 1, activation="softmax")(P1)
     elif backbone == "resnet50":
         ResNet50_up = UpSampling2D(size=(2, 2))(P1)

@@ -100,3 +100,45 @@ def ResNet50(img_input):
     feat5 = x
 
     return feat1, feat2, feat3, feat4, feat5
+
+def ResNet50_2(img_input):
+    x = ZeroPadding2D((3, 3))(img_input)
+    # 512,512,3 -> 256,256,64
+    x = Conv2D(64, (7, 7), strides=(2, 2), name='conv1_2')(x)
+    x = BatchNormalization(name='bn_conv1_2')(x)
+    x = Activation('relu')(x)
+    feat1 = x
+
+    x = ZeroPadding2D((1, 1))(x)
+    # 256,256,64 -> 128,128,64
+    x = MaxPooling2D((3, 3), strides=(2, 2))(x)
+
+    # 128,128,64 -> 128,128,256
+    x = conv_block(x, 3, [64, 64, 256], stage=20, block='a', strides=(1, 1))
+    x = identity_block(x, 3, [64, 64, 256], stage=20, block='b')
+    x = identity_block(x, 3, [64, 64, 256], stage=20, block='c')
+    feat2 = x
+
+    # 128,128,256 -> 64,64,512
+    x = conv_block(x, 3, [128, 128, 512], stage=30, block='a')
+    x = identity_block(x, 3, [128, 128, 512], stage=30, block='b')
+    x = identity_block(x, 3, [128, 128, 512], stage=30, block='c')
+    x = identity_block(x, 3, [128, 128, 512], stage=30, block='d')
+    feat3 = x
+
+    # 64,64,512 -> 32,32,1024
+    x = conv_block(x, 3, [256, 256, 1024], stage=40, block='a')
+    x = identity_block(x, 3, [256, 256, 1024], stage=40, block='b')
+    x = identity_block(x, 3, [256, 256, 1024], stage=40, block='c')
+    x = identity_block(x, 3, [256, 256, 1024], stage=40, block='d')
+    x = identity_block(x, 3, [256, 256, 1024], stage=40, block='e')
+    x = identity_block(x, 3, [256, 256, 1024], stage=40, block='f')
+    feat4 = x
+
+    # 32,32,1024 -> 16,16,2048
+    x = conv_block(x, 3, [512, 512, 2048], stage=50, block='a')
+    x = identity_block(x, 3, [512, 512, 2048], stage=50, block='b')
+    x = identity_block(x, 3, [512, 512, 2048], stage=50, block='c')
+    feat5 = x
+
+    return feat1, feat2, feat3, feat4, feat5

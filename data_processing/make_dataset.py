@@ -38,8 +38,8 @@ def get_label(X): #生成标签
         else:
             label = 3
 
-    # print(npa, npb, ia, ib)
-    # print(label)
+    print(npa, npb, ia, ib)
+    print(label)
 
     return label
 
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     # 重采样前
     y_np = np.array(list(label))
     label = [0, 1, 2, 3]
-    re_num = 56245 #重采样数
+    re_num = 150000 #重采样数
 
     X=[]
     Y=[]
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     Y=np.array(Y)
     print(X)
     print(Y)
-    np.save("x_out_inx.npy", X)
-    np.save("y_out_inx.npy", Y)
+    np.save("x_out_inx150000.npy", X)
+    np.save("y_out_inx150000.npy", Y)
 
 
